@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.vlegall"
-version = "0.2.0"
+version = "0.2.2"
 
 publishing {
     repositories {
