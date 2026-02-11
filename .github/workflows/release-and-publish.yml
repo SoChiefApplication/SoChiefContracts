@@ -27,14 +27,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Read version from contracts/build.gradle.kts.kts
+      - name: Read version from contracts/build.gradle.kts
         id: ver
         shell: bash
         run: |
           set -euo pipefail
-          VERSION=$(grep -E '^\s*version\s*=\s*"' -m1 contracts/build.gradle.kts.kts | sed -E 's/.*"([^"]+)".*/\1/')
+          VERSION=$(grep -E '^\s*version\s*=\s*"' -m1 contracts/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
           if [ -z "$VERSION" ]; then
-            echo "Could not find version in contracts/build.gradle.kts.kts" >&2
+            echo "Could not find version in contracts/build.gradle.kts" >&2
             exit 1
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
