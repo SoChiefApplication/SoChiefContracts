@@ -61,14 +61,17 @@ jobs:
           git tag -a "$TAG" -m "Release $TAG"
           git push origin "$TAG"
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Publish package to GitHub Packages
         if: steps.tagcheck.outputs.exists == 'false'
-        uses: gradle/gradle-build-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
-        with:
-          arguments: :contracts:publish
+        run: |
+          chmod +x gradlew
+          ./gradlew :contracts:publish
 
       - name: Create GitHub Release
         if: steps.tagcheck.outputs.exists == 'false'
