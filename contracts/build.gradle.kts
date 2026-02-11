@@ -12,11 +12,11 @@ version = "0.2.2"
 publishing {
     repositories {
         maven {
-            name = "gitea"
-            url = uri("https://git.lan/api/packages/leva/maven")
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/SoChiefApplication/SoChiefContracts")
             credentials {
-                username = System.getenv("GITEA_USER")
-                password = System.getenv("GITEA_TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
