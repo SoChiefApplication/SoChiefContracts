@@ -38,18 +38,14 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish to Maven Central (staging)
+      - name: Publish + Release to Maven Central
         run: |
           chmod +x gradlew
-          ./gradlew :contracts:publishAllPublicationsToMavenCentralRepository --no-configuration-cache --no-parallel
-
-      - name: Close and Release Maven Central Repository
-        run: |
-          ./gradlew :contracts:closeAndReleaseRepository --no-configuration-cache --no-parallel
+          ./gradlew :contracts:publishAndReleaseToMavenCentral --no-configuration-cache --no-parallel
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG="${GITHUB_REF_NAME}"
-          gh release create "$TAG" --generate-notes --title "$TAG"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --generate-notes --title "$TAG"
