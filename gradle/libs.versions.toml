@@ -1,11 +1,11 @@
 [versions]
-agp = "8.12.3"
+agp = "8.13.0"
 android-compileSdk = "36"
 android-minSdk = "24"
 composeHotReload = "1.0.0"
 composeMultiplatform = "1.10.0"
 kotlin = "2.3.10"
-vanniktech = "0.35.0"
+vanniktech = "0.36.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
