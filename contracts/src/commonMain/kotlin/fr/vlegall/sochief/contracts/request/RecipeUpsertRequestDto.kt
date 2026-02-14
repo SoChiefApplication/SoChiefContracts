@@ -1,6 +1,6 @@
-﻿package com.vlegall.sochiefcontracts.dto.request
+﻿package fr.vlegall.sochief.contracts.request
 
-import com.vlegall.sochiefcontracts.dto.common.IdOrNameDto
+import fr.vlegall.sochief.contracts.common.IdOrNameDto
 
 data class RecipeUpsertRequestDto(
     val title: String,

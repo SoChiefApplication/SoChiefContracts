@@ -1,15 +1,16 @@
-﻿name: Release + Publish (main)
+﻿name: Release + Publish (Maven Central)
 
 on:
   push:
-    branches: ["main"]
+    tags:
+      - "v*"
+  workflow_dispatch:
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
-  release_publish:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,60 +24,34 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-
-      - name: Read version from contracts/build.gradle.kts
-        id: ver
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION=$(grep -E '^\s*version\s*=\s*"' -m1 contracts/build.gradle.kts | sed -E 's/.*"([^"]+)".*/\1/')
-          if [ -z "$VERSION" ]; then
-            echo "Could not find version in contracts/build.gradle.kts" >&2
-            exit 1
-          fi
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Stop if tag already exists
-        id: tagcheck
-        shell: bash
-        run: |
-          set -euo pipefail
-          TAG="${{ steps.ver.outputs.tag }}"
-          if git ls-remote --tags origin "$TAG" | grep -q "$TAG"; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Tag $TAG already exists: nothing to do."
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Create and push tag
-        if: steps.tagcheck.outputs.exists == 'false'
-        shell: bash
-        run: |
-          set -euo pipefail
-          TAG="${{ steps.ver.outputs.tag }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG" -m "Release $TAG"
-          git push origin "$TAG"
+          cache: gradle
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish package to GitHub Packages
-        if: steps.tagcheck.outputs.exists == 'false'
+      # Publie toutes les publications KMP vers Maven Central "staging"
+      - name: Publish to Maven Central (staging)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
         run: |
           chmod +x gradlew
-          ./gradlew :contracts:publish
+          ./gradlew :contracts:publishAllPublicationsToMavenCentralRepository --no-configuration-cache
 
+      # Ferme et release le staging repository sur Central
+      - name: Close and Release Maven Central Repository
+        env:
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+        run: |
+          ./gradlew :contracts:closeAndReleaseRepository --no-configuration-cache
+
+      # Optionnel : GitHub Release sur le tag
       - name: Create GitHub Release
-        if: steps.tagcheck.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="${{ steps.ver.outputs.tag }}"
+          TAG="${GITHUB_REF_NAME}"
           gh release create "$TAG" --generate-notes --title "$TAG"

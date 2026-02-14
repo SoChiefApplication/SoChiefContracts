@@ -1,4 +1,4 @@
-﻿package com.vlegall.sochiefcontracts.dto.common
+﻿package fr.vlegall.sochief.contracts.common
 
 data class IdOrNameDto(
     val id: Long? = null,

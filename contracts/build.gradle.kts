@@ -3,24 +3,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias { libs.plugins.mavenManniktechPublish }
     id("maven-publish")
 }
 
-group = "com.vlegall"
+group = "fr.vlegall"
 version = "0.2.4"
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/SoChiefApplication/SoChiefContracts")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
 
 kotlin {
     androidTarget {
@@ -43,7 +31,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.vlegall.sochiefcontracts"
+    namespace = "fr.vlegall.sochief"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

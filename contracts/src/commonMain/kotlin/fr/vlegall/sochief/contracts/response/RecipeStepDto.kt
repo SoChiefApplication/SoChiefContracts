@@ -1,4 +1,4 @@
-﻿package com.vlegall.sochiefcontracts.dto.response
+﻿package fr.vlegall.sochief.contracts.response
 
 data class RecipeStepDto(
     val id: Long?,

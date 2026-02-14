@@ -5,6 +5,7 @@ android-minSdk = "24"
 composeHotReload = "1.0.0"
 composeMultiplatform = "1.10.0"
 kotlin = "2.3.10"
+vanniktech = "0.33.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -16,3 +17,4 @@ composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "com
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+mavenManniktechPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }

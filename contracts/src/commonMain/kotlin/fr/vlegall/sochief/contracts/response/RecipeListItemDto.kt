@@ -1,6 +1,6 @@
-﻿package com.vlegall.sochiefcontracts.dto.response
+﻿package fr.vlegall.sochief.contracts.response
 
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
 
 
 data class RecipeListItemDto(
