@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.mavenManniktechPublish)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 group = "fr.vlegall"
@@ -19,9 +20,16 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
         val commonTest by getting {
-            dependencies { implementation(libs.kotlin.test) }
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+
         }
 
         val androidMain by getting
