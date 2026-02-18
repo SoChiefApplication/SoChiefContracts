@@ -1,7 +1,9 @@
 ﻿package fr.vlegall.sochief.contracts.response
 
 import fr.vlegall.sochief.contracts.common.NamedIdDto
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RecipeDetailDto(
     val id: Long,
     val title: String,

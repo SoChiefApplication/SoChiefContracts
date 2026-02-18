@@ -3,12 +3,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias { libs.plugins.mavenManniktechPublish }
-    id("maven-publish")
+    alias(libs.plugins.mavenManniktechPublish)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 group = "fr.vlegall"
-version = "0.2.5"
+version = "0.3.0"
 
 kotlin {
     androidTarget {
@@ -20,9 +20,16 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
         val commonTest by getting {
-            dependencies { implementation(libs.kotlin.test) }
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+
         }
 
         val androidMain by getting
