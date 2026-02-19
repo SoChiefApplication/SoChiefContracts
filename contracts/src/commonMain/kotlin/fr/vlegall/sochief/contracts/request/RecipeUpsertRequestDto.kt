@@ -1,7 +1,9 @@
 ﻿package fr.vlegall.sochief.contracts.request
 
 import fr.vlegall.sochief.contracts.common.IdOrNameDto
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RecipeUpsertRequestDto(
     val title: String,
     val description: String? = null,
