@@ -7,4 +7,5 @@ data class ApiStatus(
     val service: String,
     val env: String? = null,
     val version: String? = null,
+    val healthy: Boolean = false,
 )
