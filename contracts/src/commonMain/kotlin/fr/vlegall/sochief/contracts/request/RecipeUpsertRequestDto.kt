@@ -16,4 +16,5 @@ data class RecipeUpsertRequestDto(
     val steps: List<RecipeStepUpsertDto>,
     val tags: List<IdOrNameDto> = emptyList(),
     val utensils: List<IdOrNameDto> = emptyList(),
+    val removeImage: Boolean = false
 )
