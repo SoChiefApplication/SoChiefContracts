@@ -11,5 +11,6 @@ data class RecipeListItemDto(
     val difficulty: NamedIdDto,
     val initialPortions: Int,
     val preparationTime: String,
-    val cookingTime: String
+    val cookingTime: String,
+    val image: ImageDto? = null
 )

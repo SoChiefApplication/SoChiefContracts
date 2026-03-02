@@ -17,5 +17,6 @@ data class RecipeDetailDto(
     val ingredients: List<RecipeIngredientDto>,
     val steps: List<RecipeStepDto>,
     val tags: List<NamedIdDto>,
-    val utensils: List<NamedIdDto>
+    val utensils: List<NamedIdDto>,
+    val image: ImageDto? = null
 )
